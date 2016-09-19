@@ -1,0 +1,8 @@
+    <site name="WalMart">
+      <url>
+        <![CDATA[http://www.walmart.com/catalog/product.do?product_id=5303670]]>
+      </url>
+      <searchString>
+        <![CDATA[<span class="OUTofstockLarge">OUT OF STOCK</span>]]>
+      </searchString>
+    </site>

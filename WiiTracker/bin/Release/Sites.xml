@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<application>
+  <sites>
+    <site name="Amazon" enabled="true" invertLogic="true">
+      <url>
+        <![CDATA[http://www.amazon.com/Nintendo-Wii/dp/B0009VXBAQ/sr=8-1/qid=1164607354/ref=pd_bbs_sr_1/102-0357921-1351334?ie=UTF8&s=videogames]]>
+      </url>
+      <searchString>
+        <![CDATA[
+
+
+
+
+<input type="image" src="http://ec1.images-amazon.com/images/G/01/nav2/dp/btn-atc.gif"]]>
+      </searchString>
+    </site>
+    <site name="Amazon No Items" enabled="false" invertLogic="false">
+      <url>
+        <![CDATA[http://www.amazon.com/Nintendo-Wii/dp/B0009VXBAQ/sr=8-1/qid=1164607354/ref=pd_bbs_sr_1/102-0357921-1351334?ie=UTF8&s=videogames]]>
+      </url>
+      <searchString>
+        <![CDATA[This item is currently not available.]]>
+      </searchString>
+    </site>
+    <site name="CompUSA" enabled="true" invertLogic="false">
+      <url>
+        <![CDATA[http://www.compusa.com/products/product_info.asp?ref=CJ&pfp=BROWSE&in_dim_search=1&N=201289&product_code=342676&Pn=Wii_Console]]>
+      </url>
+      <searchString>
+        <![CDATA[<div class="disabledbutton" style="width:90px;">Not Available</div>]]>
+      </searchString>
+    </site>
+    <site name="Circuit City" enabled="true" invertLogic="false">
+      <url>
+        <![CDATA[http://www.circuitcity.com/ssm/Wii/sem/rpsm/catOid/-16621/N/20012841+20016484+20016621/link/ref/rpem/ccd/categorySpecial.do]]>
+      </url>
+      <searchString>
+        <![CDATA[<strong style="color:#ed1c24; font-size:12px;">SOLD OUT!</strong>]]>
+      </searchString>
+    </site>
+    <site name="CostCo" enabled="true" invertLogic="false">
+      <url>
+        <![CDATA[http://www.costco.com/Browse/Productgroup.aspx?Prodid=11186095&whse=BC&Ne=4000000&N=4014156&Mo=11&No=10&Nr=P_CatalogName:BC&cat=49403&Ns=P_Price|1||P_SignDesc1&Sp=C]]>
+      </url>
+      <searchString>
+        <![CDATA[Zelda & Excite Truck Bundle SOLD OUT]]>
+      </searchString>
+    </site>
+    <site name="WalMart" enabled="true" invertLogic="false">
+      <url>
+        <![CDATA[http://www.walmart.com/catalog/product.do?dest=9999999997&product_id=3611240&sourceid=26246326403926231379]]>
+      </url>
+      <searchString>
+        <![CDATA[<td class="OUTofstockLarge">OUT OF STOCK</td>]]>
+      </searchString>
+    </site>
+    <site name="Sams Club" enabled="true" invertLogic="false">
+      <url>
+        <![CDATA[http://www.samsclub.com/shopping/navigate.do?dest=5&item=355934&landing=wii]]>
+      </url>
+      <searchString>
+        <![CDATA[<div class='mainstay-txt34' align="center">OUT OF STOCK FOR DELIVERY</div>]]>
+      </searchString>
+    </site>
+    <site name="Target" enabled="true" invertLogic="false">
+      <url>
+        <![CDATA[http://xpbargains.com/jump.php?deal=target&afsrc=1&arg=B0009VXBAQ]]>
+      </url>
+      <searchString>
+        <![CDATA[<div id="disc-msg">The item you were looking for was not found]]>
+      </searchString>
+    </site>
+    <site name="JCPenny" enabled="true" invertLogic="false">
+      <url>
+        <![CDATA[http://www2.jcpenney.com/jcp/Products.aspx?DeptID=446&CatTyp=DEP&ItemTyp=G&GrpTyp=PRD&ItemID=111ec44&ProdSeq=1&ProdCount=4&Dep=toys&CatID=37959&RefPage=SearchDepartment&ShowMenu=T&ShopBy=0&SearchString=wii&CmCatId=SearchResults|SearchDepartment&S4DeptID=4]]>
+      </url>
+      <searchString>
+        <![CDATA[The item selected is currently not available.]]>
+      </searchString>
+    </site>
+    <site name="KMart" enabled="true" invertLogic="false">
+      <url>
+        <![CDATA[http://www.kmart.com/catalog/product.jsp?productId=177558&N=0&Nty=1&Ntk=All&Ntx=mode%20matchallpartial&Ntt=wii]]>
+      </url>
+      <searchString>
+        <![CDATA[<font class="red">Sold Out</font>]]>
+      </searchString>
+    </site>
+  </sites>
+</application>

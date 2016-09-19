@@ -1,0 +1,14 @@
+  <SMSUrlConfig type="WiiTracker.ConfigSections.SMSUrlConfig, WiiTracker.ConfigSections">
+    <smsurl>
+      <attribute name="url" value="http://www.google.com/sendtophone" />
+      <attribute name="g1" value="US" />
+      <attribute name="h1" value="en" />
+      <attribute name="client" value="client=navclient-ffsms" />
+      <attribute name="c" value="1" />
+      <attribute name="mobile_user_id" value="[UID]" />
+      <attribute name="carrier" value="VERIZON" />
+      <attribute name="subject" value="[SUBJECT]" />
+      <attribute name="text" value="[MESSAGE]" />
+    </smsurl>
+  </SMSUrlConfig>
+  <section name="SMSUrlConfig" type="WiiTracker.ConfigSections.ConfigSectionHandler, WiiTracker.ConfigSections" />

@@ -1,0 +1,1407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ws.cdyne.com/NotifyWS/" xmlns:s1="http://ws.cdyne.com/NotifyWS/AbstractTypes" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://ws.cdyne.com/NotifyWS/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This service is FREE to test.  The system will attempt to call a number 1 time until it is answered (Can be modified with the TryCount property).&lt;br&gt;We now accept Extension numbers by using an 'x' in the phone number (ex:555-555-1000x3025).&lt;br&gt;&lt;br&gt;A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;p&gt;To get a quick License Key for 9 cents a transaction go to : &lt;a href="https://secure.cdyne.com/QuickNotifySignup"&gt;https://secure.cdyne.com/QuickNotifySignup&lt;/a&gt;&lt;/p&gt;</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ws.cdyne.com/NotifyWS/">
+      <s:element name="GetVersion">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVersionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReturnSoundFileIDs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReturnSoundFileIDsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReturnSoundFileIDsResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RemoveSoundFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SoundFileID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveSoundFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RemoveSoundFileResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadSoundFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FileBinary" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="SoundFileID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadSoundFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadSoundFileResult" type="tns:UploadFileResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UploadFileResponse">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="UploadSuccessful" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorResponse" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RecordSoundViaPhoneCall">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumberToDial" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SoundFileID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RecordSoundViaPhoneCallResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RecordSoundViaPhoneCallResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetQueueIDStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="QueueID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetQueueIDStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetQueueIDStatusResult" type="tns:NotifyReturn" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="NotifyReturn">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ResponseCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResponseText" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CallAnswered" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="QueueID" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="TryCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Demo" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="DigitsPressed" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MachineDetection" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Duration" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="StartTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="MinuteRate" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="NotifyPhoneEnglishBasic">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumberToDial" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TextToSay" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyPhoneEnglishBasicResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NotifyPhoneEnglishBasicResult" type="tns:NotifyReturn" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyPhoneBasicWithTransfer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumberToDial" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransferNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TextToSay" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerIDname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VoiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyPhoneBasicWithTransferResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NotifyPhoneBasicWithTransferResult" type="tns:NotifyReturn" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMultipleQueueIdStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueueIDs" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMultipleQueueIdStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMultipleQueueIdStatusResult" type="tns:ArrayOfNotifyReturn" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfNotifyReturn">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="NotifyReturn" nillable="true" type="tns:NotifyReturn" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="NotifyMultiplePhoneBasic">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumbersToDial" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TextToSay" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerIDname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VoiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyMultiplePhoneBasicResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NotifyMultiplePhoneBasicResult" type="tns:ArrayOfNotifyReturn" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyPhoneBasic">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumberToDial" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TextToSay" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerIDname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VoiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyPhoneBasicResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NotifyPhoneBasicResult" type="tns:NotifyReturn" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyPhoneBasicWithTryCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="TryCount" type="s:short" />
+            <s:element minOccurs="0" maxOccurs="1" name="PhoneNumberToDial" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TextToSay" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CallerIDname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VoiceID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyPhoneBasicWithTryCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NotifyPhoneBasicWithTryCountResult" type="tns:NotifyReturn" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NotifyPhoneAdvanced">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="anr" type="tns:AdvancedNotifyRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AdvancedNotifyRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PhoneNumberToDial" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransferNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="VoiceID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CallerIDNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CallerIDName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TextToSay" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LicenseKey" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TryCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="NextTryInSeconds" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="UTCScheduledDateTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="TTSrate" type="s:unsignedByte" />
+          <s:element minOccurs="1" maxOccurs="1" name="TTSvolume" type="s:unsignedByte" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="NotifyPhoneAdvancedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NotifyPhoneAdvancedResult" type="tns:NotifyReturn" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResponseCodes">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetResponseCodesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetResponseCodesResult" type="tns:ArrayOfAnyType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAnyType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Voice">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="VoiceID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="VoiceName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VoiceGender" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="VoiceAge" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="VoiceLanguage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VoiceSummary" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Response">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ResponseCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResponseText" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getVoices">
+        <s:complexType />
+      </s:element>
+      <s:complexType name="ArrayOfVoice">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Voice" nillable="true" type="tns:Voice" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getVoicesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getVoicesResult" type="tns:ArrayOfVoice" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+      <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" />
+      <s:element name="boolean" type="s:boolean" />
+      <s:element name="UploadFileResponse" nillable="true" type="tns:UploadFileResponse" />
+      <s:element name="NotifyReturn" nillable="true" type="tns:NotifyReturn" />
+      <s:element name="ArrayOfNotifyReturn" nillable="true" type="tns:ArrayOfNotifyReturn" />
+      <s:element name="ArrayOfAnyType" nillable="true" type="tns:ArrayOfAnyType" />
+      <s:element name="ArrayOfVoice" nillable="true" type="tns:ArrayOfVoice" />
+    </s:schema>
+    <s:schema targetNamespace="http://ws.cdyne.com/NotifyWS/AbstractTypes">
+      <s:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <s:complexType name="StringArray">
+        <s:complexContent mixed="false">
+          <s:restriction base="soapenc:Array">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="String" type="s:string" />
+            </s:sequence>
+          </s:restriction>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVersion" />
+  </wsdl:message>
+  <wsdl:message name="GetVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReturnSoundFileIDsSoapIn">
+    <wsdl:part name="parameters" element="tns:ReturnSoundFileIDs" />
+  </wsdl:message>
+  <wsdl:message name="ReturnSoundFileIDsSoapOut">
+    <wsdl:part name="parameters" element="tns:ReturnSoundFileIDsResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSoundFileSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveSoundFile" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSoundFileSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveSoundFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadSoundFileSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadSoundFile" />
+  </wsdl:message>
+  <wsdl:message name="UploadSoundFileSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadSoundFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="RecordSoundViaPhoneCallSoapIn">
+    <wsdl:part name="parameters" element="tns:RecordSoundViaPhoneCall" />
+  </wsdl:message>
+  <wsdl:message name="RecordSoundViaPhoneCallSoapOut">
+    <wsdl:part name="parameters" element="tns:RecordSoundViaPhoneCallResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetQueueIDStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetQueueIDStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetQueueIDStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetQueueIDStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneEnglishBasicSoapIn">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneEnglishBasic" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneEnglishBasicSoapOut">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneEnglishBasicResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTransferSoapIn">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneBasicWithTransfer" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTransferSoapOut">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneBasicWithTransferResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMultipleQueueIdStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMultipleQueueIdStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetMultipleQueueIdStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMultipleQueueIdStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotifyMultiplePhoneBasicSoapIn">
+    <wsdl:part name="parameters" element="tns:NotifyMultiplePhoneBasic" />
+  </wsdl:message>
+  <wsdl:message name="NotifyMultiplePhoneBasicSoapOut">
+    <wsdl:part name="parameters" element="tns:NotifyMultiplePhoneBasicResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicSoapIn">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneBasic" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicSoapOut">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneBasicResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTryCountSoapIn">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneBasicWithTryCount" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTryCountSoapOut">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneBasicWithTryCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneAdvancedSoapIn">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneAdvanced" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneAdvancedSoapOut">
+    <wsdl:part name="parameters" element="tns:NotifyPhoneAdvancedResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetResponseCodesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetResponseCodes" />
+  </wsdl:message>
+  <wsdl:message name="GetResponseCodesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetResponseCodesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getVoicesSoapIn">
+    <wsdl:part name="parameters" element="tns:getVoices" />
+  </wsdl:message>
+  <wsdl:message name="getVoicesSoapOut">
+    <wsdl:part name="parameters" element="tns:getVoicesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVersionHttpGetIn" />
+  <wsdl:message name="GetVersionHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ReturnSoundFileIDsHttpGetIn">
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ReturnSoundFileIDsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSoundFileHttpGetIn">
+    <wsdl:part name="SoundFileID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSoundFileHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="UploadSoundFileHttpGetIn">
+    <wsdl:part name="FileBinary" type="s1:StringArray" />
+    <wsdl:part name="SoundFileID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadSoundFileHttpGetOut">
+    <wsdl:part name="Body" element="tns:UploadFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="RecordSoundViaPhoneCallHttpGetIn">
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="SoundFileID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RecordSoundViaPhoneCallHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="GetQueueIDStatusHttpGetIn">
+    <wsdl:part name="QueueID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetQueueIDStatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneEnglishBasicHttpGetIn">
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneEnglishBasicHttpGetOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTransferHttpGetIn">
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="TransferNumber" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="CallerID" type="s:string" />
+    <wsdl:part name="CallerIDname" type="s:string" />
+    <wsdl:part name="VoiceID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTransferHttpGetOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="GetMultipleQueueIdStatusHttpGetIn">
+    <wsdl:part name="QueueIDs" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMultipleQueueIdStatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfNotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyMultiplePhoneBasicHttpGetIn">
+    <wsdl:part name="PhoneNumbersToDial" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="CallerID" type="s:string" />
+    <wsdl:part name="CallerIDname" type="s:string" />
+    <wsdl:part name="VoiceID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyMultiplePhoneBasicHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfNotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicHttpGetIn">
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="CallerID" type="s:string" />
+    <wsdl:part name="CallerIDname" type="s:string" />
+    <wsdl:part name="VoiceID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicHttpGetOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTryCountHttpGetIn">
+    <wsdl:part name="TryCount" type="s:string" />
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="CallerID" type="s:string" />
+    <wsdl:part name="CallerIDname" type="s:string" />
+    <wsdl:part name="VoiceID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTryCountHttpGetOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="GetResponseCodesHttpGetIn" />
+  <wsdl:message name="GetResponseCodesHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAnyType" />
+  </wsdl:message>
+  <wsdl:message name="getVoicesHttpGetIn" />
+  <wsdl:message name="getVoicesHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfVoice" />
+  </wsdl:message>
+  <wsdl:message name="GetVersionHttpPostIn" />
+  <wsdl:message name="GetVersionHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="ReturnSoundFileIDsHttpPostIn">
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ReturnSoundFileIDsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfString" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSoundFileHttpPostIn">
+    <wsdl:part name="SoundFileID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSoundFileHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="UploadSoundFileHttpPostIn">
+    <wsdl:part name="FileBinary" type="s1:StringArray" />
+    <wsdl:part name="SoundFileID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadSoundFileHttpPostOut">
+    <wsdl:part name="Body" element="tns:UploadFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="RecordSoundViaPhoneCallHttpPostIn">
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="SoundFileID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RecordSoundViaPhoneCallHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="GetQueueIDStatusHttpPostIn">
+    <wsdl:part name="QueueID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetQueueIDStatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneEnglishBasicHttpPostIn">
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneEnglishBasicHttpPostOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTransferHttpPostIn">
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="TransferNumber" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="CallerID" type="s:string" />
+    <wsdl:part name="CallerIDname" type="s:string" />
+    <wsdl:part name="VoiceID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTransferHttpPostOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="GetMultipleQueueIdStatusHttpPostIn">
+    <wsdl:part name="QueueIDs" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetMultipleQueueIdStatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfNotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyMultiplePhoneBasicHttpPostIn">
+    <wsdl:part name="PhoneNumbersToDial" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="CallerID" type="s:string" />
+    <wsdl:part name="CallerIDname" type="s:string" />
+    <wsdl:part name="VoiceID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyMultiplePhoneBasicHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfNotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicHttpPostIn">
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="CallerID" type="s:string" />
+    <wsdl:part name="CallerIDname" type="s:string" />
+    <wsdl:part name="VoiceID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicHttpPostOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTryCountHttpPostIn">
+    <wsdl:part name="TryCount" type="s:string" />
+    <wsdl:part name="PhoneNumberToDial" type="s:string" />
+    <wsdl:part name="TextToSay" type="s:string" />
+    <wsdl:part name="CallerID" type="s:string" />
+    <wsdl:part name="CallerIDname" type="s:string" />
+    <wsdl:part name="VoiceID" type="s:string" />
+    <wsdl:part name="LicenseKey" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NotifyPhoneBasicWithTryCountHttpPostOut">
+    <wsdl:part name="Body" element="tns:NotifyReturn" />
+  </wsdl:message>
+  <wsdl:message name="GetResponseCodesHttpPostIn" />
+  <wsdl:message name="GetResponseCodesHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfAnyType" />
+  </wsdl:message>
+  <wsdl:message name="getVoicesHttpPostIn" />
+  <wsdl:message name="getVoicesHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfVoice" />
+  </wsdl:message>
+  <wsdl:portType name="PhoneNotifySoap">
+    <wsdl:operation name="GetVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns CDYNE Version information</wsdl:documentation>
+      <wsdl:input message="tns:GetVersionSoapIn" />
+      <wsdl:output message="tns:GetVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReturnSoundFileIDs">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get available sound files that you can add to your stream via a license key. (free)</wsdl:documentation>
+      <wsdl:input message="tns:ReturnSoundFileIDsSoapIn" />
+      <wsdl:output message="tns:ReturnSoundFileIDsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSoundFile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sound file delete. (free)</wsdl:documentation>
+      <wsdl:input message="tns:RemoveSoundFileSoapIn" />
+      <wsdl:output message="tns:RemoveSoundFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadSoundFile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sound file upload.  Our system accepts WAV (PCM, U-law, A-law, MS ADPCM) Files.  We plan on adding more very soon.&lt;br&gt;To use the sound file in the notify put ~ around it and start it with a ^.Example "Hello ~^soundfile~, you are cool."(This would text to speech Hello and you are cool,adding the sound file in the middle). (free)</wsdl:documentation>
+      <wsdl:input message="tns:UploadSoundFileSoapIn" />
+      <wsdl:output message="tns:UploadSoundFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordSoundViaPhoneCall">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Request the system to call you to record a sound file. SoundfileIDs can only be lowercase and contain normal file characters.  The CallerIDName will be the SoundFileID and the number will be 8000000000.  Demos are not allowed.</wsdl:documentation>
+      <wsdl:input message="tns:RecordSoundViaPhoneCallSoapIn" />
+      <wsdl:output message="tns:RecordSoundViaPhoneCallSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueIDStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a status on a particular QueueID.</wsdl:documentation>
+      <wsdl:input message="tns:GetQueueIDStatusSoapIn" />
+      <wsdl:output message="tns:GetQueueIDStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneEnglishBasic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method will call any phone number in the US/Canada and read the TextToSay to that phone number using the voice of Diane (voiceid: 0). PhoneNumberToDial must be filled in (They can be in any format as long as there is 10 digits).&lt;br&gt;A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;br&gt;Use a LicenseKey of 0 for testing.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneEnglishBasicSoapIn" />
+      <wsdl:output message="tns:NotifyPhoneEnglishBasicSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTransfer">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">&lt;b&gt;You must have a valid CDYNE key to use this.  Please test with our other methods.&lt;/b&gt;  This Method is exactly like the NotifyPhoneBasic with one exception.  It allows you to transfer a call by pressing 0.  Put the Transfer phone number in TransferNumberToOnDigit.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneBasicWithTransferSoapIn" />
+      <wsdl:output message="tns:NotifyPhoneBasicWithTransferSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMultipleQueueIdStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method returns information about the status of multiple notifies via queueid (delimited by a semicolon).  This transaction is free, but does require a valid licensekey.</wsdl:documentation>
+      <wsdl:input message="tns:GetMultipleQueueIdStatusSoapIn" />
+      <wsdl:output message="tns:GetMultipleQueueIdStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyMultiplePhoneBasic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method will call phone numbers (delimited by a semicolon) in the US/Canada and read the TextToSay to that phone number.  You must use a license key for this function.  Your billing will be charged per phone number.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyMultiplePhoneBasicSoapIn" />
+      <wsdl:output message="tns:NotifyMultiplePhoneBasicSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method will call any phone number in the US/Canada and read the TextToSay to that phone number. &lt;br&gt;Set VoiceID equal to 0 for TTS Diane to speak the Text.  For a list of Voices with their ID look at getVoices. PhoneNumberToDial and CallerID must be filled in (They can be in any format as long as there is 10 digits).&lt;br&gt;A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;br&gt;Use a LicenseKey of 0 for testing.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneBasicSoapIn" />
+      <wsdl:output message="tns:NotifyPhoneBasicSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTryCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Same as NotifyPhoneBasic with a number of times it will retry the call.  The max is 3.  Demos are not allowed.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneBasicWithTryCountSoapIn" />
+      <wsdl:output message="tns:NotifyPhoneBasicWithTryCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneAdvanced">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows you to control the notifies with a class.  This allows for the maximum combinations of using notify.  Demos are not allowed.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneAdvancedSoapIn" />
+      <wsdl:output message="tns:NotifyPhoneAdvancedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetResponseCodes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method will list all of the Response Codes.</wsdl:documentation>
+      <wsdl:input message="tns:GetResponseCodesSoapIn" />
+      <wsdl:output message="tns:GetResponseCodesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getVoices">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method will list all the voices available for your notification. Use the VoiceID for the Notification Methods</wsdl:documentation>
+      <wsdl:input message="tns:getVoicesSoapIn" />
+      <wsdl:output message="tns:getVoicesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="PhoneNotifyHttpGet">
+    <wsdl:operation name="GetVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns CDYNE Version information</wsdl:documentation>
+      <wsdl:input message="tns:GetVersionHttpGetIn" />
+      <wsdl:output message="tns:GetVersionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReturnSoundFileIDs">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get available sound files that you can add to your stream via a license key. (free)</wsdl:documentation>
+      <wsdl:input message="tns:ReturnSoundFileIDsHttpGetIn" />
+      <wsdl:output message="tns:ReturnSoundFileIDsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSoundFile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sound file delete. (free)</wsdl:documentation>
+      <wsdl:input message="tns:RemoveSoundFileHttpGetIn" />
+      <wsdl:output message="tns:RemoveSoundFileHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadSoundFile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sound file upload.  Our system accepts WAV (PCM, U-law, A-law, MS ADPCM) Files.  We plan on adding more very soon.&lt;br&gt;To use the sound file in the notify put ~ around it and start it with a ^.Example "Hello ~^soundfile~, you are cool."(This would text to speech Hello and you are cool,adding the sound file in the middle). (free)</wsdl:documentation>
+      <wsdl:input message="tns:UploadSoundFileHttpGetIn" />
+      <wsdl:output message="tns:UploadSoundFileHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordSoundViaPhoneCall">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Request the system to call you to record a sound file. SoundfileIDs can only be lowercase and contain normal file characters.  The CallerIDName will be the SoundFileID and the number will be 8000000000.  Demos are not allowed.</wsdl:documentation>
+      <wsdl:input message="tns:RecordSoundViaPhoneCallHttpGetIn" />
+      <wsdl:output message="tns:RecordSoundViaPhoneCallHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueIDStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a status on a particular QueueID.</wsdl:documentation>
+      <wsdl:input message="tns:GetQueueIDStatusHttpGetIn" />
+      <wsdl:output message="tns:GetQueueIDStatusHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneEnglishBasic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method will call any phone number in the US/Canada and read the TextToSay to that phone number using the voice of Diane (voiceid: 0). PhoneNumberToDial must be filled in (They can be in any format as long as there is 10 digits).&lt;br&gt;A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;br&gt;Use a LicenseKey of 0 for testing.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneEnglishBasicHttpGetIn" />
+      <wsdl:output message="tns:NotifyPhoneEnglishBasicHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTransfer">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">&lt;b&gt;You must have a valid CDYNE key to use this.  Please test with our other methods.&lt;/b&gt;  This Method is exactly like the NotifyPhoneBasic with one exception.  It allows you to transfer a call by pressing 0.  Put the Transfer phone number in TransferNumberToOnDigit.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneBasicWithTransferHttpGetIn" />
+      <wsdl:output message="tns:NotifyPhoneBasicWithTransferHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMultipleQueueIdStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method returns information about the status of multiple notifies via queueid (delimited by a semicolon).  This transaction is free, but does require a valid licensekey.</wsdl:documentation>
+      <wsdl:input message="tns:GetMultipleQueueIdStatusHttpGetIn" />
+      <wsdl:output message="tns:GetMultipleQueueIdStatusHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyMultiplePhoneBasic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method will call phone numbers (delimited by a semicolon) in the US/Canada and read the TextToSay to that phone number.  You must use a license key for this function.  Your billing will be charged per phone number.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyMultiplePhoneBasicHttpGetIn" />
+      <wsdl:output message="tns:NotifyMultiplePhoneBasicHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method will call any phone number in the US/Canada and read the TextToSay to that phone number. &lt;br&gt;Set VoiceID equal to 0 for TTS Diane to speak the Text.  For a list of Voices with their ID look at getVoices. PhoneNumberToDial and CallerID must be filled in (They can be in any format as long as there is 10 digits).&lt;br&gt;A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;br&gt;Use a LicenseKey of 0 for testing.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneBasicHttpGetIn" />
+      <wsdl:output message="tns:NotifyPhoneBasicHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTryCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Same as NotifyPhoneBasic with a number of times it will retry the call.  The max is 3.  Demos are not allowed.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneBasicWithTryCountHttpGetIn" />
+      <wsdl:output message="tns:NotifyPhoneBasicWithTryCountHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetResponseCodes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method will list all of the Response Codes.</wsdl:documentation>
+      <wsdl:input message="tns:GetResponseCodesHttpGetIn" />
+      <wsdl:output message="tns:GetResponseCodesHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getVoices">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method will list all the voices available for your notification. Use the VoiceID for the Notification Methods</wsdl:documentation>
+      <wsdl:input message="tns:getVoicesHttpGetIn" />
+      <wsdl:output message="tns:getVoicesHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="PhoneNotifyHttpPost">
+    <wsdl:operation name="GetVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method returns CDYNE Version information</wsdl:documentation>
+      <wsdl:input message="tns:GetVersionHttpPostIn" />
+      <wsdl:output message="tns:GetVersionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReturnSoundFileIDs">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get available sound files that you can add to your stream via a license key. (free)</wsdl:documentation>
+      <wsdl:input message="tns:ReturnSoundFileIDsHttpPostIn" />
+      <wsdl:output message="tns:ReturnSoundFileIDsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSoundFile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sound file delete. (free)</wsdl:documentation>
+      <wsdl:input message="tns:RemoveSoundFileHttpPostIn" />
+      <wsdl:output message="tns:RemoveSoundFileHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadSoundFile">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sound file upload.  Our system accepts WAV (PCM, U-law, A-law, MS ADPCM) Files.  We plan on adding more very soon.&lt;br&gt;To use the sound file in the notify put ~ around it and start it with a ^.Example "Hello ~^soundfile~, you are cool."(This would text to speech Hello and you are cool,adding the sound file in the middle). (free)</wsdl:documentation>
+      <wsdl:input message="tns:UploadSoundFileHttpPostIn" />
+      <wsdl:output message="tns:UploadSoundFileHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RecordSoundViaPhoneCall">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Request the system to call you to record a sound file. SoundfileIDs can only be lowercase and contain normal file characters.  The CallerIDName will be the SoundFileID and the number will be 8000000000.  Demos are not allowed.</wsdl:documentation>
+      <wsdl:input message="tns:RecordSoundViaPhoneCallHttpPostIn" />
+      <wsdl:output message="tns:RecordSoundViaPhoneCallHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueIDStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns a status on a particular QueueID.</wsdl:documentation>
+      <wsdl:input message="tns:GetQueueIDStatusHttpPostIn" />
+      <wsdl:output message="tns:GetQueueIDStatusHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneEnglishBasic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method will call any phone number in the US/Canada and read the TextToSay to that phone number using the voice of Diane (voiceid: 0). PhoneNumberToDial must be filled in (They can be in any format as long as there is 10 digits).&lt;br&gt;A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;br&gt;Use a LicenseKey of 0 for testing.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneEnglishBasicHttpPostIn" />
+      <wsdl:output message="tns:NotifyPhoneEnglishBasicHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTransfer">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">&lt;b&gt;You must have a valid CDYNE key to use this.  Please test with our other methods.&lt;/b&gt;  This Method is exactly like the NotifyPhoneBasic with one exception.  It allows you to transfer a call by pressing 0.  Put the Transfer phone number in TransferNumberToOnDigit.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneBasicWithTransferHttpPostIn" />
+      <wsdl:output message="tns:NotifyPhoneBasicWithTransferHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMultipleQueueIdStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method returns information about the status of multiple notifies via queueid (delimited by a semicolon).  This transaction is free, but does require a valid licensekey.</wsdl:documentation>
+      <wsdl:input message="tns:GetMultipleQueueIdStatusHttpPostIn" />
+      <wsdl:output message="tns:GetMultipleQueueIdStatusHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyMultiplePhoneBasic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method will call phone numbers (delimited by a semicolon) in the US/Canada and read the TextToSay to that phone number.  You must use a license key for this function.  Your billing will be charged per phone number.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyMultiplePhoneBasicHttpPostIn" />
+      <wsdl:output message="tns:NotifyMultiplePhoneBasicHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This Method will call any phone number in the US/Canada and read the TextToSay to that phone number. &lt;br&gt;Set VoiceID equal to 0 for TTS Diane to speak the Text.  For a list of Voices with their ID look at getVoices. PhoneNumberToDial and CallerID must be filled in (They can be in any format as long as there is 10 digits).&lt;br&gt;A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;br&gt;Use a LicenseKey of 0 for testing.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneBasicHttpPostIn" />
+      <wsdl:output message="tns:NotifyPhoneBasicHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTryCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Same as NotifyPhoneBasic with a number of times it will retry the call.  The max is 3.  Demos are not allowed.</wsdl:documentation>
+      <wsdl:input message="tns:NotifyPhoneBasicWithTryCountHttpPostIn" />
+      <wsdl:output message="tns:NotifyPhoneBasicWithTryCountHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetResponseCodes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method will list all of the Response Codes.</wsdl:documentation>
+      <wsdl:input message="tns:GetResponseCodesHttpPostIn" />
+      <wsdl:output message="tns:GetResponseCodesHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getVoices">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This method will list all the voices available for your notification. Use the VoiceID for the Notification Methods</wsdl:documentation>
+      <wsdl:input message="tns:getVoicesHttpPostIn" />
+      <wsdl:output message="tns:getVoicesHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PhoneNotifySoap" type="tns:PhoneNotifySoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetVersion">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/GetVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReturnSoundFileIDs">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/ReturnSoundFileIDs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSoundFile">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/RemoveSoundFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadSoundFile">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/UploadSoundFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RecordSoundViaPhoneCall">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/RecordSoundViaPhoneCall" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueIDStatus">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/GetQueueIDStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneEnglishBasic">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneEnglishBasic" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTransfer">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneBasicWithTransfer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMultipleQueueIdStatus">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/GetMultipleQueueIdStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyMultiplePhoneBasic">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyMultiplePhoneBasic" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasic">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneBasic" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTryCount">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneBasicWithTryCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneAdvanced">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneAdvanced" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResponseCodes">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/GetResponseCodes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVoices">
+      <soap:operation soapAction="http://ws.cdyne.com/NotifyWS/getVoices" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PhoneNotifySoap12" type="tns:PhoneNotifySoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetVersion">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/GetVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReturnSoundFileIDs">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/ReturnSoundFileIDs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSoundFile">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/RemoveSoundFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadSoundFile">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/UploadSoundFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RecordSoundViaPhoneCall">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/RecordSoundViaPhoneCall" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueIDStatus">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/GetQueueIDStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneEnglishBasic">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneEnglishBasic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTransfer">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneBasicWithTransfer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMultipleQueueIdStatus">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/GetMultipleQueueIdStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyMultiplePhoneBasic">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyMultiplePhoneBasic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasic">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneBasic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTryCount">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneBasicWithTryCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneAdvanced">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/NotifyPhoneAdvanced" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResponseCodes">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/GetResponseCodes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVoices">
+      <soap12:operation soapAction="http://ws.cdyne.com/NotifyWS/getVoices" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PhoneNotifyHttpGet" type="tns:PhoneNotifyHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="GetVersion">
+      <http:operation location="/GetVersion" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReturnSoundFileIDs">
+      <http:operation location="/ReturnSoundFileIDs" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSoundFile">
+      <http:operation location="/RemoveSoundFile" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadSoundFile">
+      <http:operation location="/UploadSoundFile" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RecordSoundViaPhoneCall">
+      <http:operation location="/RecordSoundViaPhoneCall" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueIDStatus">
+      <http:operation location="/GetQueueIDStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneEnglishBasic">
+      <http:operation location="/NotifyPhoneEnglishBasic" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTransfer">
+      <http:operation location="/NotifyPhoneBasicWithTransfer" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMultipleQueueIdStatus">
+      <http:operation location="/GetMultipleQueueIdStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyMultiplePhoneBasic">
+      <http:operation location="/NotifyMultiplePhoneBasic" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasic">
+      <http:operation location="/NotifyPhoneBasic" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTryCount">
+      <http:operation location="/NotifyPhoneBasicWithTryCount" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResponseCodes">
+      <http:operation location="/GetResponseCodes" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVoices">
+      <http:operation location="/getVoices" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PhoneNotifyHttpPost" type="tns:PhoneNotifyHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GetVersion">
+      <http:operation location="/GetVersion" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReturnSoundFileIDs">
+      <http:operation location="/ReturnSoundFileIDs" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSoundFile">
+      <http:operation location="/RemoveSoundFile" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadSoundFile">
+      <http:operation location="/UploadSoundFile" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RecordSoundViaPhoneCall">
+      <http:operation location="/RecordSoundViaPhoneCall" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueIDStatus">
+      <http:operation location="/GetQueueIDStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneEnglishBasic">
+      <http:operation location="/NotifyPhoneEnglishBasic" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTransfer">
+      <http:operation location="/NotifyPhoneBasicWithTransfer" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMultipleQueueIdStatus">
+      <http:operation location="/GetMultipleQueueIdStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyMultiplePhoneBasic">
+      <http:operation location="/NotifyMultiplePhoneBasic" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasic">
+      <http:operation location="/NotifyPhoneBasic" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyPhoneBasicWithTryCount">
+      <http:operation location="/NotifyPhoneBasicWithTryCount" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResponseCodes">
+      <http:operation location="/GetResponseCodes" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVoices">
+      <http:operation location="/getVoices" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PhoneNotify">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">This service is FREE to test.  The system will attempt to call a number 1 time until it is answered (Can be modified with the TryCount property).&lt;br&gt;We now accept Extension numbers by using an 'x' in the phone number (ex:555-555-1000x3025).&lt;br&gt;&lt;br&gt;A reminder about abuse:  &lt;b&gt;Threats and illegal activity can be shared with the authorities.&lt;/b&gt;&lt;p&gt;To get a quick License Key for 9 cents a transaction go to : &lt;a href="https://secure.cdyne.com/QuickNotifySignup"&gt;https://secure.cdyne.com/QuickNotifySignup&lt;/a&gt;&lt;/p&gt;</wsdl:documentation>
+    <wsdl:port name="PhoneNotifySoap" binding="tns:PhoneNotifySoap">
+      <soap:address location="http://ws.cdyne.com/NotifyWS/phonenotify.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PhoneNotifySoap12" binding="tns:PhoneNotifySoap12">
+      <soap12:address location="http://ws.cdyne.com/NotifyWS/phonenotify.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PhoneNotifyHttpGet" binding="tns:PhoneNotifyHttpGet">
+      <http:address location="http://ws.cdyne.com/NotifyWS/phonenotify.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PhoneNotifyHttpPost" binding="tns:PhoneNotifyHttpPost">
+      <http:address location="http://ws.cdyne.com/NotifyWS/phonenotify.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
